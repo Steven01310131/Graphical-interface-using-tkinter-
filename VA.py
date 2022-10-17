@@ -15,12 +15,12 @@ lst=[]
 SIZE = 600
 def clear():
     canvas.delete("all")
-
-
+    hole=canvas.create_oval(-50,250 ,50,350, fill="black")
+    hole=canvas.create_oval(650,250 ,550,350, fill="black")
 def add_balls():
     num=int(entry.get())
     for i in range(num):
-        ball = balls(canvas ,random.randint(20,580),random.randint(20,580),random.randint(-10,10),random.randint(-10,10))
+        ball = balls(canvas ,random.randint(100,400),random.randint(100,400),random.randint(-10,10),random.randint(-10,10))
         lst.append(ball)
         ball.move_ball()
         ball.bounce()
@@ -37,7 +37,7 @@ class balls():
     color = ["red", "orange", "yellow", "green", "blue", "violet"]
     def __init__(self, canvas,x1,y1,vx,vy):
         global R
-        R=20
+        R=10
         self.vx=vx
         self.vy=vy
         self.x1 = x1
@@ -51,12 +51,12 @@ class balls():
     def move_ball(self):
         self.canvas.move(self.ball, self.vx,self.vy)
         self.canvas.after(30, self.move_ball)
-    # def bouncebetween(self,other):
-    #     for i in lst:
-    #         A=[(canvas.coords(self.ball)[0]-canvas.coords(other.ball)[0]),
-    #         (canvas.coords(self.ball)[1]-canvas.coords(other.ball)[1])]
-    #         if ((A[0])**2+(A[1])**2)**0.5<=2*R:
-    #             self.vx,self.vy,other.vx,other.vy=other.vx,other.vy,self.vx,self.vy
+    def bouncebetween(self,other):
+        for i in lst:
+            A=[(canvas.coords(self.ball)[0]-canvas.coords(other.ball)[0]),
+            (canvas.coords(self.ball)[1]-canvas.coords(other.ball)[1])]
+            if ((A[0])**2+(A[1])**2)**0.5<=2*R:
+                self.vx,self.vy,other.vx,other.vy=other.vx,other.vy,self.vx,self.vy
     def bounce(self):
 
         if canvas.coords(self.ball)[0]<=0 or canvas.coords(self.ball)[2]>=SIZE:
@@ -66,10 +66,11 @@ class balls():
         self.canvas.after(30,self.bounce)
 
     def deleting(self):
-        if canvas.coords(self.ball)[0] ==10:
+        if canvas.coords(self.ball)[0]<=50 and canvas.coords(self.ball)[1]>=250 and canvas.coords(self.ball)[3]<=350:
             canvas.delete(self.ball)
-
-
+        if canvas.coords(self.ball)[2]>=550 and canvas.coords(self.ball)[1]>=250 and canvas.coords(self.ball)[3]<=350:
+            canvas.delete(self.ball)
+        canvas.after(30,self.deleting)
             
             
 # initialize root Window and canvas
@@ -82,8 +83,10 @@ frame2.pack(fill=tk.BOTH,side=tk.LEFT,expand=True)
 
 canvas = tk.Canvas(master=frame1, width = SIZE, height = SIZE)
 canvas.pack()
+global hole
+hole=canvas.create_oval(-50,250 ,50,350, fill="black")
+hole=canvas.create_oval(650,250 ,550,350, fill="black")
 
-# create two ball objects and animate them
 
 btn=tk.Button(master=frame2,text="Initialize",command=add_balls)
 btn_reset=tk.Button(master=frame2,text="reset",command=clear)
