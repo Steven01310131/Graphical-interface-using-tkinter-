@@ -12,9 +12,10 @@ def clear():
     canvas.delete("all")
     hole=canvas.create_oval(-50,250 ,50,350, fill="black")
     hole=canvas.create_oval(650,250 ,550,350, fill="black")
+    lst.clear()
 def speed():
-    for i in lst:
-        i.speed_(float(entry2.get()))
+    canvas
+        
 def add_balls():
     num=int(entry1.get())
     for i in range(num):
@@ -23,7 +24,7 @@ def add_balls():
         ball.move_ball()
         ball.bounce()
         
-        #ball.deleting()
+        ball.deleting()
         ball.bouncebetween()
         
     # print(lst[0].ball)   
@@ -42,8 +43,9 @@ def add_ball():
     lst.append(ball)
     ball.move_ball()
     ball.bounce()
-   # ball.deleting()
+    
     ball.bouncebetween()
+    ball.deleting()
     
 class balls():
     color = ["red", "orange", "yellow", "green", "blue", "violet"]
@@ -74,23 +76,31 @@ class balls():
             if self.ball != lst[i]:
                 A=[canvas.coords(self.ball)[0]-canvas.coords(lst[i].ball)[0],canvas.coords(self.ball)[1]-canvas.coords(lst[i].ball)[1]]
                 if ((A[0])**2+(A[1])**2)**0.5<=2*R:
+                    # vx1,vy1,vx2,vy2= self.vx,self.vy,lst[i].vx,lst[i].vy
+                    # x1=(canvas.coords(self.ball)[0]+canvas.coords(self.ball)[2])/2
+                    # y1=(canvas.coords(self.ball)[1]+canvas.coords(self.ball)[3])/2
+                    # x2=(canvas.coords(lst[i].ball)[0]+canvas.coords(lst[i].ball)[2])/2
+                    # y2=(canvas.coords(lst[i].ball)[1]+canvas.coords(lst[i].ball)[3])/2
+                    # self.vx=vx1+(vx2-vx1)*
                     self.vx,self.vy,lst[i].vx,lst[i].vy=lst[i].vx,lst[i].vy,self.vx,self.vy
         self.canvas.after(30,self.bouncebetween)
 
 
     def bounce(self):
 
-        if canvas.coords(self.ball)[0]<=3 or canvas.coords(self.ball)[2]>=SIZE-3:
+        if canvas.coords(self.ball)[0]<=5 or canvas.coords(self.ball)[2]>=SIZE-5:
             self.vx=-self.vx
-        if canvas.coords(self.ball)[1]<=3 or canvas.coords(self.ball)[3]>=SIZE-3:
+        if canvas.coords(self.ball)[1]<=5 or canvas.coords(self.ball)[3]>=SIZE-5:
             self.vy=-self.vy
         self.canvas.after(30,self.bounce)
 
     def deleting(self):
         if canvas.coords(self.ball)[0]<=50 and canvas.coords(self.ball)[1]>=250 and canvas.coords(self.ball)[3]<=350:
             canvas.delete(self.ball)
+            lst.remove(self)
         if canvas.coords(self.ball)[2]>=550 and canvas.coords(self.ball)[1]>=250 and canvas.coords(self.ball)[3]<=350:
             canvas.delete(self.ball)
+            lst.remove(self)
         canvas.after(30,self.deleting)
     def speed_(self,s):
         self.vx=self.vx*s
@@ -117,7 +127,9 @@ hole=canvas.create_oval(650,250 ,550,350, fill="black")
 btn=tk.Button(master=frame2,text="Initialize",command=add_balls)
 btn_reset=tk.Button(master=frame2,text="reset",command=clear)
 btn_anotherball=tk.Button(master=frame2,text="add more balls",command=add_ball)
-btn_slow=tk.Button(master=frame2,text="Slow motion",command=speed)
+btn_slow=tk.Button(master=frame2,text="speed x ",command=speed)
+exit_button = tk.Button(master=frame2, text="Exit", command=window.destroy)
+
 
 
 number_objects=tk.Label(text="Enter number of objects")
@@ -137,6 +149,6 @@ btn.grid( sticky="nsew")
 btn_reset.grid( sticky="nsew")
 btn_anotherball.grid( sticky="nsew")
 btn_slow.grid(sticky="nsew")
-
+exit_button.grid(sticky="nsew")
 
 window.mainloop()
