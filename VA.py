@@ -5,6 +5,9 @@ import tkinter as tk
 import random
 import time
 import numpy as np
+
+
+from scipy.linalg import norm
 global lst
 lst=[]
 SIZE = 600
@@ -14,7 +17,8 @@ def clear():
     hole=canvas.create_oval(650,250 ,550,350, fill="black")
     lst.clear()
 def speed():
-    canvas
+    for i in lst:
+        i.speed_(float(entry2.get()))
         
 def add_balls():
     num=int(entry1.get())
@@ -27,14 +31,6 @@ def add_balls():
         ball.deleting()
         ball.bouncebetween()
         
-    # print(lst[0].ball)   
-    # for i in range(0,len(lst)):
-    #     for j in range(i+1,len(lst)):
-    #         A=[canvas.coords(lst[i].ball)[0]-canvas.coords(lst[j].ball)[0],canvas.coords(lst[i].ball)[1]-canvas.coords(lst[j].ball)[1]]
-    #         if ((A[0])**2+(A[1])**2)**0.5<=2*R:
-    #             lst[i].vx,lst[i].vy,[j].vx,lst[j].vy=lst[j].vx,lst[j].vy,lst[i].vx,lst[i].vy
-    #         canvas.after(30)
-    
 
 
 
@@ -76,12 +72,7 @@ class balls():
             if self.ball != lst[i]:
                 A=[canvas.coords(self.ball)[0]-canvas.coords(lst[i].ball)[0],canvas.coords(self.ball)[1]-canvas.coords(lst[i].ball)[1]]
                 if ((A[0])**2+(A[1])**2)**0.5<=2*R:
-                    # vx1,vy1,vx2,vy2= self.vx,self.vy,lst[i].vx,lst[i].vy
-                    # x1=(canvas.coords(self.ball)[0]+canvas.coords(self.ball)[2])/2
-                    # y1=(canvas.coords(self.ball)[1]+canvas.coords(self.ball)[3])/2
-                    # x2=(canvas.coords(lst[i].ball)[0]+canvas.coords(lst[i].ball)[2])/2
-                    # y2=(canvas.coords(lst[i].ball)[1]+canvas.coords(lst[i].ball)[3])/2
-                    # self.vx=vx1+(vx2-vx1)*
+
                     self.vx,self.vy,lst[i].vx,lst[i].vy=lst[i].vx,lst[i].vy,self.vx,self.vy
         self.canvas.after(30,self.bouncebetween)
 
