@@ -1,4 +1,5 @@
-
+#Tsabanakis Stefanos VA
+#Tom 
 from os import lstat
 from re import S
 import tkinter as tk
@@ -77,7 +78,10 @@ class balls():
         self.canvas.after(30,self.bouncebetween)
 
 
-    def bounce(self):
+    def bounce(self):# If the position canvas.coords(self.ball)[0] happens to be in the area <=5 
+                    #and not approaching we will a obseve the balls sticking to the wall becauce it will 
+                    # constantly be in that area so the speed will fluctuate between + and -
+                    # same problem will occur in the collision of the balls were we will observe them stick to eachother
 
         if canvas.coords(self.ball)[0]<=5 or canvas.coords(self.ball)[2]>=SIZE-5:
             self.vx=-self.vx
